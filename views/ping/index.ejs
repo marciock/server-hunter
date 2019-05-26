@@ -6,13 +6,54 @@
     <input type="text" class="form-control" id="ip">
     <span class="bmp-help">Enter the IP or Host URL.</span>
   </div>
-  <button type="button" class="btn btn-raised btn-success bmd-btn-fab"><i class="material-icons">check</i></button>
+  <button type="button" class="btn btn-raised btn-success bmd-btn-fab" id="send"><i class="material-icons">check</i></button>
 
 </div>
 <div class="row">
-  <h4>Results</h4>
-  <div id="results">
-
-    </div>
+<!--
+  <div class="row" style="margin-bottom: 3em;">
+      <div class="col-sm">
+        <button type="button" class="btn btn-raised btn-info bmd-btn-fab" id="reset"><i class="material-icons">refresh</i></button>
+      </div>
+     
+      <div class="col-sm">
+        <button type="button" class="btn btn-raised btn-warning bmd-btn-fab" id="play"><i class="material-icons">play_arrow</i></button>
+      </div>
+      <div class="col-sm">
+        <button type="button" class="btn btn-raised btn-danger bmd-btn-fab" id="stop"><i class="material-icons">stop</i></button>
+      </div>
+    </div>-->  
+  <h4 style="margin-top: 3em;">Results</h4>
+  <div id="results" >
+     
 </div>
+
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  window.onload=()=>{
+      const socket=io('http://localhost:8080');
+      const dash=document.getElementById('results');
+      const button=document.getElementById('send');
+      const stopButton=document.getElementById('stop');
+      const playButton=document.getElementById('play');
+     
+      const command=document.getElementById('ip');
+
+      socket.on('output',(data)=>{
+          let p=document.createElement('p');
+          p.innerHTML=data;
+
+          dash.appendChild(p);
+      });
+
+      button.addEventListener('click',()=>{
+          socket.emit('command',ip.value);
+      });
+      
+  
+}
+</script>
 
